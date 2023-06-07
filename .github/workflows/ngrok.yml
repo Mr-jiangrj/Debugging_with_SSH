@@ -15,8 +15,10 @@ jobs:
     
     steps:
     
-     - name: 检出项目
-       uses: actions/checkout@v1
+     - uses: actions/checkout@v1
+ 
+     - name: Try Build
+       run: ./not-exist-file.sh it bloke build
  
      - name: Start SSH via Ngrok
        if: ${{ failure() }}
