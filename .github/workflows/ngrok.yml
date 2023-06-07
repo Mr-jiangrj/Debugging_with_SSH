@@ -1,0 +1,32 @@
+name: Debugging with SSH
+
+on:
+  workflow_dispatch:
+    inputs:
+      clean_cache:
+        description: 'Clear caches'
+        required: true
+        type: boolean
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Debugging with SSH
+    
+    steps:
+    
+     - name: 检出项目
+       uses: actions/checkout@v1
+ 
+     - name: Start SSH via Ngrok
+       if: ${{ failure() }}
+       run: |
+         curl -fsSL https://github.com/Mr-jiangrj/Ngrok-for-Github/raw/main/ngrok.sh | bash
+       env:
+        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        USER_PASS: ${{ secrets.USER_PASS }}
+ 
+     - name: Don't kill instace
+       if: ${{ failure() }}
+       run: |
+         sleep 1h
